@@ -73,6 +73,26 @@ const Label = styled.label`
   color: #2c3e50;
 `;
 
+const Select = styled.select`
+  padding: 10px;
+  font-size: 1em;
+  margin-bottom: 20px;
+  border: 2px solid #f1d3cf;
+  border-radius: 10px;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.3s ease;
+
+  &:focus {
+    border-color: #2c3e50;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 0.9em;
+  }
+`;
+
 const Input = styled.input`
   padding: 10px;
   font-size: 1em;
@@ -144,6 +164,10 @@ const UploadForm = () => {
       setMessage('Please select a file to upload.');
       return;
     }
+    if (!category) {
+        setMessage('Please select a category.');
+        return;
+      }
 
     const formData = new FormData();
     formData.append('category', category);
@@ -176,12 +200,14 @@ const UploadForm = () => {
       <FormTitle>Upload a Photo</FormTitle>
       <Form onSubmit={handleSubmit}>
         <Label>Category:</Label>
-        <Input 
-          type="text" 
-          value={category} 
-          onChange={handleCategoryChange} 
-          placeholder="e.g., Wedding, Birthday"
-        />
+        <Select value={category} onChange={handleCategoryChange}>
+          <option value="">Select a category</option>
+          <option value="Vin d'honneur">Vin d'honneur</option>
+          <option value="Repas">Repas</option>
+          <option value="Danse">Danse</option>
+          <option value="Préparatifs">Préparatifs</option>
+          <option value="Cérémonie">Cérémonie</option>
+        </Select>
         <Label>Photo:</Label>
         <Input type="file" onChange={handleFileChange} />
         <SubmitButton type="submit">Upload</SubmitButton>

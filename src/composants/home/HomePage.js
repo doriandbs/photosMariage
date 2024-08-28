@@ -90,7 +90,7 @@ const HomePage = () => {
   };
 
   const goToGallery = () => {
-    navigate('/gallery');
+    navigate('/categories');
   };
 
   return (

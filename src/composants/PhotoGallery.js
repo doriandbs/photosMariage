@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
 
 const GalleryContainer = styled.div`
@@ -9,6 +9,7 @@ const GalleryContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100vh;
 `;
 
 const Title = styled.h2`
@@ -17,27 +18,17 @@ const Title = styled.h2`
   margin-bottom: 30px;
   font-family: 'Great Vibes', cursive;
   text-shadow: 0px 0px 5px #f1d3cf;
-
-  @media (max-width: 480px) {
-    font-size: 2em;
-    margin-bottom: 20px;
-  }
 `;
 
-const PhotoGrid = styled.div`
+const MediaGrid = styled.div`
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: 15px;
   width: 100%;
   max-width: 1200px;
-
-  @media (max-width: 480px) {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    gap: 10px;
-  }
 `;
 
-const PhotoCard = styled.div`
+const MediaCard = styled.div`
   position: relative;
   overflow: hidden;
   border-radius: 8px;
@@ -56,20 +47,13 @@ const Photo = styled.img`
   object-fit: cover;
   transition: transform 0.3s ease;
 `;
-const PhotoOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
+
+const Video = styled.video`
   width: 100%;
   height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  &:hover {
-    opacity: 1;
-  }
+  object-fit: cover;
 `;
+
 const FullscreenOverlay = styled.div`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
   position: fixed;
@@ -83,7 +67,7 @@ const FullscreenOverlay = styled.div`
   z-index: 1000;
 `;
 
-const FullscreenPhoto = styled.img`
+const FullscreenMedia = styled.div`
   max-width: 90%;
   max-height: 90%;
   border-radius: 8px;
@@ -106,79 +90,101 @@ const BackButton = styled.button`
   &:hover {
     background-color: #e8b5b1;
   }
-
-  @media (max-width: 480px) {
-    padding: 8px 20px;
-    font-size: 1em;
-  }
 `;
 
 const PhotoGallery = () => {
-  const [photos, setPhotos] = useState([]);
+  const { category } = useParams(); // Get the category from the URL
+  const [media, setMedia] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [fullscreenPhoto, setFullscreenPhoto] = useState(null);
+  const [fullscreenMedia, setFullscreenMedia] = useState(null); // State for fullscreen media
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchPhotos = async () => {
+    const fetchMedia = async () => {
       try {
-        const response = await fetch('https://backend-photosmariage.onrender.com/files');
+        const response = await fetch(`https://backend-photosmariage.onrender.com/files?category=${category}`);
         if (response.ok) {
           const data = await response.json();
-          setPhotos(data);
+          console.log("DATA", data)
+          setMedia(data);
         } else {
-          setError('Failed to load photos');
+          setError('Failed to load media');
         }
       } catch (error) {
-        setError('An error occurred while fetching photos');
+        setError('An error occurred while fetching media');
       } finally {
         setLoading(false);
       }
     };
 
-    fetchPhotos();
-  }, []);
+    fetchMedia();
+  }, [category]);
 
-  const openFullscreen = (photo) => {
-    setFullscreenPhoto(photo);
+  const openFullscreen = (media) => {
+    setFullscreenMedia(media); // Set the clicked media to fullscreenMedia state
   };
 
   const closeFullscreen = () => {
-    setFullscreenPhoto(null);
+    setFullscreenMedia(null); // Clear fullscreenMedia to close fullscreen mode
   };
 
   const handleBackClick = () => {
-    navigate('/home');
+    navigate('/categories'); // Back to the category selection
   };
 
   if (loading) {
-    return <p>Loading photos...</p>;
+    return <p>Loading media...</p>;
   }
 
   if (error) {
-    return <p>{error}</p>;
+    return <ErrorPage message={error} />;
   }
 
   return (
     <GalleryContainer>
-    <BackButton onClick={handleBackClick}>Back to Home</BackButton>
-      <Title>Photo Gallery</Title>
-      <PhotoGrid>
-        {photos.map((photo) => (
-          <PhotoCard key={photo.key} onClick={() => openFullscreen(photo)}>
-            <Photo src={photo.url} alt={photo.key} />
-            <PhotoOverlay />
-          </PhotoCard>
-        ))}
-      </PhotoGrid>
+      <BackButton onClick={handleBackClick}>Back to Categories</BackButton>
+      <Title>{category} Gallery</Title>
+      <MediaGrid>
+  {media.map((item) => {
+    console.log(item); // Log chaque item ici
+    const isImage = item.key.endsWith('.jpg') || item.key.endsWith('.jpeg') || item.key.endsWith('.png') || item.key.endsWith('.gif');
+    const isVideo = item.key.endsWith('.mp4') || item.key.endsWith('.mov') || item.key.endsWith('.avi');
 
-      <FullscreenOverlay visible={fullscreenPhoto} onClick={closeFullscreen}>
-        {fullscreenPhoto && (
-          <FullscreenPhoto src={fullscreenPhoto.url} alt={fullscreenPhoto.key} />
+    return (
+      <MediaCard key={item.key} onClick={() => openFullscreen(item)}>
+        {isImage ? (
+          <Photo src={item.url} alt={item.key} />
+        ) : isVideo ? (
+          <Video src={item.url} alt={item.key} controls />
+        ) : null}
+      </MediaCard>
+    );
+  })}
+</MediaGrid>
+
+      <FullscreenOverlay visible={fullscreenMedia} onClick={closeFullscreen}>
+        {fullscreenMedia && (
+          <FullscreenMedia>
+            {fullscreenMedia.type && fullscreenMedia.type.startsWith('image') ? (
+              <Photo src={fullscreenMedia.url} alt={fullscreenMedia.key} />
+            ) : fullscreenMedia.type && fullscreenMedia.type.startsWith('video') ? (
+              <Video src={fullscreenMedia.url} controls autoPlay />
+            ) : null}
+          </FullscreenMedia>
         )}
       </FullscreenOverlay>
     </GalleryContainer>
+  );
+};
+
+const ErrorPage = ({ message }) => {
+  return (
+    <div className="error-page">
+      <h1>Oops!</h1>
+      <p>{message}</p>
+      <button onClick={() => window.location.reload()}>Retry</button>
+    </div>
   );
 };
 

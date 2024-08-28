@@ -54,3 +54,31 @@ p {
   color: green;
   font-weight: bold;
 }
+
+
+.error-page {
+  text-align: center;
+  padding: 50px;
+  background-color: #f8d7da;
+  color: #721c24;
+  height: 100vh;
+}
+
+.error-page h1 {
+  font-size: 48px;
+  margin-bottom: 20px;
+}
+
+.error-page p {
+  font-size: 18px;
+}
+
+.error-page button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
