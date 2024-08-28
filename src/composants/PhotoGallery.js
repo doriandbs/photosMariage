@@ -56,7 +56,20 @@ const Photo = styled.img`
   object-fit: cover;
   transition: transform 0.3s ease;
 `;
+const PhotoOverlay = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  transition: opacity 0.3s ease;
 
+  &:hover {
+    opacity: 1;
+  }
+`;
 const FullscreenOverlay = styled.div`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
   position: fixed;
