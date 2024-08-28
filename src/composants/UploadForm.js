@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styled from 'styled-components';
-
 const FormContainer = styled.div`
   position: relative;
   padding: 20px;
@@ -31,6 +30,11 @@ const BackButton = styled.button`
   &:hover {
     background-color: #e8b5b1;
   }
+
+  @media (max-width: 480px) {
+    padding: 8px 20px;
+    font-size: 1em;
+  }
 `;
 
 const FormTitle = styled.h2`
@@ -39,6 +43,12 @@ const FormTitle = styled.h2`
   margin-bottom: 30px;
   font-family: 'Great Vibes', cursive;
   text-shadow: 0px 0px 5px #f1d3cf;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
 `;
 
 const Form = styled.form`
@@ -49,7 +59,12 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 300px;
+  width: 100%;
+  max-width: 400px;
+
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `;
 
 const Label = styled.label`
@@ -71,6 +86,11 @@ const Input = styled.input`
   &:focus {
     border-color: #2c3e50;
   }
+
+  @media (max-width: 480px) {
+    padding: 8px;
+    font-size: 0.9em;
+  }
 `;
 
 const SubmitButton = styled.button`
@@ -83,9 +103,16 @@ const SubmitButton = styled.button`
   border-radius: 30px;
   transition: all 0.3s ease;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 200px;
 
   &:hover {
     background-color: #e8b5b1;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 20px;
+    font-size: 1em;
   }
 `;
 
@@ -93,6 +120,7 @@ const Message = styled.p`
   margin-top: 20px;
   font-size: 1em;
   color: ${props => (props.error ? 'red' : 'green')};
+  text-align: center;
 `;
 
 const UploadForm = () => {

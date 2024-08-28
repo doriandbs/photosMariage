@@ -11,13 +11,17 @@ const GalleryContainer = styled.div`
   align-items: center;
 `;
 
-
 const Title = styled.h2`
   font-size: 2.5em;
   color: #f1d3cf;
   margin-bottom: 30px;
   font-family: 'Great Vibes', cursive;
   text-shadow: 0px 0px 5px #f1d3cf;
+
+  @media (max-width: 480px) {
+    font-size: 2em;
+    margin-bottom: 20px;
+  }
 `;
 
 const PhotoGrid = styled.div`
@@ -26,6 +30,11 @@ const PhotoGrid = styled.div`
   gap: 15px;
   width: 100%;
   max-width: 1200px;
+
+  @media (max-width: 480px) {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 10px;
+  }
 `;
 
 const PhotoCard = styled.div`
@@ -35,7 +44,7 @@ const PhotoCard = styled.div`
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
   cursor: pointer;
   transition: transform 0.3s ease;
-  
+
   &:hover {
     transform: scale(1.05);
   }
@@ -46,21 +55,6 @@ const Photo = styled.img`
   height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
-`;
-
-const PhotoOverlay = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.5);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-
-  &:hover {
-    opacity: 1;
-  }
 `;
 
 const FullscreenOverlay = styled.div`
@@ -99,7 +93,13 @@ const BackButton = styled.button`
   &:hover {
     background-color: #e8b5b1;
   }
+
+  @media (max-width: 480px) {
+    padding: 8px 20px;
+    font-size: 1em;
+  }
 `;
+
 const PhotoGallery = () => {
   const [photos, setPhotos] = useState([]);
   const [loading, setLoading] = useState(true);

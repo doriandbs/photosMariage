@@ -10,7 +10,6 @@ const neonGlow = keyframes`
     text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4, 0 0 40px #ff69b4, 0 0 50px #ff69b4, 0 0 60px #ff69b4, 0 0 70px #ff69b4, 0 0 80px #ff69b4;
   }
 `;
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -20,6 +19,7 @@ const Container = styled.div`
   background: linear-gradient(135deg, #c7c8c3, #a0a09f);
   font-family: 'Great Vibes', cursive;
   color: #333;
+  padding: 20px;
 `;
 
 const Title = styled.h1`
@@ -28,6 +28,12 @@ const Title = styled.h1`
   animation: ${neonGlow} 2s infinite alternate;
   margin-bottom: 50px;
   text-shadow: 0px 0px 5px #f1d3cf;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 2.5em;
+    margin-bottom: 30px;
+  }
 `;
 
 const Button = styled.button`
@@ -66,6 +72,12 @@ const Button = styled.button`
     color: #2c3e50;
     background-color: #ff69b4;
     border: 2px solid transparent;
+  }
+
+  @media (max-width: 480px) {
+    padding: 10px 20px;
+    font-size: 1.2em;
+    margin: 10px;
   }
 `;
 

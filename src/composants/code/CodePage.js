@@ -11,6 +11,7 @@ const Container = styled.div`
   background: linear-gradient(135deg, #fdfdfd, #2c3e50);
   font-family: 'Great Vibes', cursive;
   color: #333;
+  padding: 20px;
 `;
 
 const AccessForm = styled.form`
@@ -21,6 +22,12 @@ const AccessForm = styled.form`
   padding: 40px;
   border-radius: 15px;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+
+  @media (max-width: 480px) {
+    padding: 20px;
+  }
 `;
 
 const Title = styled.h1`
@@ -28,6 +35,11 @@ const Title = styled.h1`
   color: #f1d3cf;
   margin-bottom: 20px;
   text-shadow: 0px 0px 5px #f1d3cf;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 2em;
+  }
 `;
 
 const Input = styled.input`
@@ -38,9 +50,15 @@ const Input = styled.input`
   border-radius: 10px;
   outline: none;
   transition: border-color 0.3s ease;
+  width: 100%;
 
   &:focus {
     border-color: #2c3e50;
+  }
+
+  @media (max-width: 480px) {
+    padding: 8px 16px;
+    font-size: 1em;
   }
 `;
 
@@ -54,9 +72,16 @@ const Button = styled.button`
   border-radius: 30px;
   transition: all 0.3s ease;
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 200px;
 
   &:hover {
     background-color: #e8b5b1;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1.2em;
+    padding: 8px 20px;
   }
 `;
 
