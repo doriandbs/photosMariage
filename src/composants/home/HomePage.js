@@ -10,6 +10,7 @@ const neonGlow = keyframes`
     text-shadow: 0 0 20px #ff69b4, 0 0 30px #ff69b4, 0 0 40px #ff69b4, 0 0 50px #ff69b4, 0 0 60px #ff69b4, 0 0 70px #ff69b4, 0 0 80px #ff69b4;
   }
 `;
+
 const Container = styled.div`
   display: flex;
   flex-direction: column;
