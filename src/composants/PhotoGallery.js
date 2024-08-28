@@ -110,7 +110,7 @@ const PhotoGallery = () => {
   useEffect(() => {
     const fetchPhotos = async () => {
       try {
-        const response = await fetch('http://localhost:3000/files');
+        const response = await fetch('https://backend-photosmariage.onrender.com/files');
         if (response.ok) {
           const data = await response.json();
           setPhotos(data);

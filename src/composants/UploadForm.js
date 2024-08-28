@@ -122,7 +122,7 @@ const UploadForm = () => {
     formData.append('photo', file);
 
     try {
-      const response = await fetch('http://localhost:3000/upload', {
+      const response = await fetch('https://backend-photosmariage.onrender.com/upload', {
         method: 'POST',
         body: formData,
       });
